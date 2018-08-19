@@ -2,5 +2,5 @@
 
 Disciplina de Sistemas Distribuídos UFJF 2018-3
 
-Simples funcionalidade de soma utilizando o XML-RCP
+Simples funcionalidade de soma utilizando o XML-RPC
 
