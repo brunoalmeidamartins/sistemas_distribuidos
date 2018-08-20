@@ -11,10 +11,10 @@ def adiciona(a,b):
 def main():
     print("Esse eh um servidor!")
 
-    server = SimpleXMLRPCServer.SimpleXMLRPCServer(("0.0.0.0",8081))
-    server.register_function(adiciona)
+    server = SimpleXMLRPCServer.SimpleXMLRPCServer(("0.0.0.0",8081)) #Habilita o servidor no IP e Porta
+    server.register_function(adiciona) #Registra a funcao
     print("Precione CRTL + C para finalizar...")
-    server.serve_forever()
+    server.serve_forever() # Loop
 
 if __name__== "__main__":
     main()

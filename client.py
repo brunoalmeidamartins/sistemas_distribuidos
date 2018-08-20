@@ -9,7 +9,9 @@ def main():
     print("Esse eh o cliente!")
 
     client = xmlrpclib.ServerProxy("http://localhost:8081")
-    resultado = client.adiciona(3,4)
+    valor1 = input("Digite o valor 1: ")
+    valor2 = input("Digite o valor 2: ")
+    resultado = client.adiciona(valor1, valor2)
     print("Resultado da soma == "+str(resultado))
 
 if __name__ == "__main__":
