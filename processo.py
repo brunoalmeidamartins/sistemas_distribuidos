@@ -7,3 +7,4 @@ class Processo():
         self.prox_vizinho = vizinho2
         self.isLider = False
         self.falha = False
+        self.comecou_eleicao = False #Identifica quem iniciou a eleicao
