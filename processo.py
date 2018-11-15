@@ -8,3 +8,4 @@ class Processo():
         self.isLider = False
         self.falha = False
         self.comecou_eleicao = False #Identifica quem iniciou a eleicao
+        self.id_lider = 0

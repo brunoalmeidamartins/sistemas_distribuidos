@@ -2,6 +2,7 @@ from processo import Processo as pr
 from random import randint
 import time
 import numpy as np
+import os
 
 def buscaIndexElemento(lista,id): #Retorna a posicao do elemento na lista
     i = 0
@@ -24,8 +25,12 @@ def verificaFalha(lista):
                 time.sleep(1)
                 if lista[id_vizinho].falha:
                     #Se houver falha, inicia processo de eleicao
+                    print("Erro na comunicao!!!!")
+                    time.sleep(2)
+                    print('')
                     print("Processo "+str(lista[i].id)+" indentificou que o processo "+str(lista[id_vizinho].id)+" morreu!!")
                     print("Processo "+str(lista[i].id)+" inicia uma eleicao")
+                    print('')
                     #Chama eleicao
                     lista[i].comecou_eleicao = True
                     eleicaoLider(lista,lista[i].id,lista[i].prox_vizinho)
@@ -36,8 +41,12 @@ def verificaFalha(lista):
             time.sleep(1)
             if lista[id_vizinho].falha:
                 #Se houver falha, inicia processo de eleicao
+                print("Erro na comunicao!!!!")
+                time.sleep(2)
+                print('')
                 print("Processo "+str(lista[i].id)+" indentificou que o processo "+str(lista[id_vizinho].id)+" morreu!!")
                 print("Processo "+str(lista[i].id)+" inicia uma eleicao")
+                print('')
                 #Chama eleicao
                 lista[i].comecou_eleicao = True
                 eleicaoLider(lista,lista[i].id,lista[i].prox_vizinho)
@@ -72,18 +81,39 @@ def eleicaoLider(lista,id_processo,id_proxVizinho): #Elege um novo lider
     print("Id novo lider: ",id_novo_lider)
     index_lista = buscaIndexElemento(lista,id_novo_lider)
     lista[index_lista].isLider = True #Seta o novo lider
-    lista[index_comecou_eleicao].comecou_eleicao = False #Seta falso para quem iniciou a eleicao
+
     print('')
     for i in lista:
         if i.isLider == True:
             print("Novo lider eh: ",i.id)
             break
 
+    #Envia mensagem de novo lider para todos saberem
+    print('\nEnvia mensagem na rede do novo lider \n')
+    lista[index_comecou_eleicao].id_lider = id_novo_lider
+    print("Processo "+str(lista[index_comecou_eleicao].id)+" -> Novo lider eh: "+str(id_novo_lider))
+    index_lista = buscaIndexElemento(lista,lista[index_comecou_eleicao].prox_vizinho)
+    while(lista[index_lista].comecou_eleicao == False):
+        #index_processo = buscaIndexElemento(lista,id_vizinho)
+        lista[index_lista].id_lider = id_novo_lider
+        print("Processo "+str(lista[index_lista].id)+" -> Novo lider eh: "+str(id_novo_lider))
+        index_lista = buscaIndexElemento(lista,lista[index_lista].vizinho)
+        time.sleep(1)
+    print(" ")
+    '''
+    for i in lista: # Define quem eh o lider em todos os processos
+            if i.id == lista[index_lista].vizinho:
+                pass
+            else:
+                i.id_lider = id_novo_lider
+                print("Processo "+str(i.id)+" -> Novo lider eh: "+str(id_novo_lider))
+    '''
 
+    lista[index_comecou_eleicao].comecou_eleicao = False #Seta falso para quem iniciou a eleicao
 
 
 class main():
-    quant_processos = 10
+    quant_processos = 15
     ultimo_processo = quant_processos -1
     penultimo_processo = quant_processos-2
     primeiro_processo = 1
@@ -117,8 +147,26 @@ class main():
     print('')
     print("Lider atual: "+str(lista_processos[numero_aleatorio].id))
     print('')
-    numero_aleatorio = randint(0,quant_processos-1) # Gera um numero aleatorio
+    #Preenche todos os processos com o lider escolhido
+    for i in lista_processos:
+        i.id_lider = lista_processos[numero_aleatorio].id
+    #numero_aleatorio = randint(0,quant_processos-1) # Gera um numero aleatorio
     #lista_processos[numero_aleatorio].falha = True #Gera uma falha aleatoria
+    for i in range(0,3):
+        numero_aleatorio = randint(0,quant_processos-1) # Gera um numero aleatorio
+        lista_processos[numero_aleatorio].falha = True #Gera uma falha aleatoria
+        #Inicia processo de verificacao na rede
+        time.sleep(2)
+        os.system('clear')
+        print("Inicio de verificacao na rede!!")
+        time.sleep(2)
+        print(' ')
+        verificaFalha(lista_processos) #Verifica se ha falha na rede
+        lista_processos[buscaIndexElemento(lista_processos,numero_aleatorio)].falha = False #Seta a falha do processo como falso novamente
+        print('\nFim do processo de verificacao \n')
+
+
+    ''' #Setar a falha manualmente
     opcao = -1
     while(opcao != 0):
         opcao = int(input("Digite o id do processo que ira falhar: "))
@@ -129,3 +177,4 @@ class main():
                 lista_processos[buscaIndexElemento(lista_processos,opcao)].falha = False
         else:
             print("Opcao Incorreta!!")
+    '''
