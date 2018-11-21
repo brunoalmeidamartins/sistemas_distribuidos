@@ -100,15 +100,6 @@ def eleicaoLider(lista,id_processo,id_proxVizinho): #Elege um novo lider
         index_lista = buscaIndexElemento(lista,lista[index_lista].vizinho)
         time.sleep(1)
     print(" ")
-    '''
-    for i in lista: # Define quem eh o lider em todos os processos
-            if i.id == lista[index_lista].vizinho:
-                pass
-            else:
-                i.id_lider = id_novo_lider
-                print("Processo "+str(i.id)+" -> Novo lider eh: "+str(id_novo_lider))
-    '''
-
     lista[index_comecou_eleicao].comecou_eleicao = False #Seta falso para quem iniciou a eleicao
 
 
@@ -150,9 +141,7 @@ class main():
     #Preenche todos os processos com o lider escolhido
     for i in lista_processos:
         i.id_lider = lista_processos[numero_aleatorio].id
-    #numero_aleatorio = randint(0,quant_processos-1) # Gera um numero aleatorio
-    #lista_processos[numero_aleatorio].falha = True #Gera uma falha aleatoria
-    for i in range(0,3):
+    for i in range(0,3): #Numero de execucoes
         numero_aleatorio = randint(0,quant_processos-1) # Gera um numero aleatorio
         lista_processos[numero_aleatorio].falha = True #Gera uma falha aleatoria
         #Inicia processo de verificacao na rede
@@ -164,17 +153,3 @@ class main():
         verificaFalha(lista_processos) #Verifica se ha falha na rede
         lista_processos[buscaIndexElemento(lista_processos,numero_aleatorio)].falha = False #Seta a falha do processo como falso novamente
         print('\nFim do processo de verificacao \n')
-
-
-    ''' #Setar a falha manualmente
-    opcao = -1
-    while(opcao != 0):
-        opcao = int(input("Digite o id do processo que ira falhar: "))
-        lista_processos[buscaIndexElemento(lista_processos,opcao)].falha = True
-        if opcao > 0 and opcao <=quant_processos:
-            if opcao != 0:
-                verificaFalha(lista_processos)
-                lista_processos[buscaIndexElemento(lista_processos,opcao)].falha = False
-        else:
-            print("Opcao Incorreta!!")
-    '''
