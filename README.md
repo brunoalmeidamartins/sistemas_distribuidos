@@ -1,4 +1,4 @@
-# sistemas_distribuidos
+# Sistemas Distribuídos
 
 Disciplina de Sistemas Distribuídos UFJF 2018-3
 
